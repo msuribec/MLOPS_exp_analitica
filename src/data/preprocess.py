@@ -101,7 +101,7 @@ def preprocess_and_log(steps):
             processed_dataset = preprocess(raw_split, **steps)
 
             with processed_data.new_file(split + ".pkl", mode="wb") as file:
-                df_x, labels = processed_dataset.tensors
+                df_x, labels = processed_dataset
                 pickle.dump((df_x, labels), file)
 
 
