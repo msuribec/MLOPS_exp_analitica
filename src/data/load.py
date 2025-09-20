@@ -52,7 +52,7 @@ def load_and_log(id_execution: str | None = None):
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
         
         seed = int(os.environ["SEED"])
-        train_size = int(os.environ["TRAIN_SIZE"])
+        train_size = float(os.environ["TRAIN_SIZE"])
 
         datasets = load(train_size=train_size, seed=seed)
 
