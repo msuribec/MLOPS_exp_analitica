@@ -55,7 +55,7 @@ def load_and_log(id_execution: str | None = None):
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
         
 
-        train_df, val_df, test_df = load(train_size=0.8)
+        train_df, val_df, test_df = load(train_size=0.8, seed=42)
 
         # Save locally
         out_dir = Path("data/raw")
@@ -90,5 +90,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--IdExecution', type=str, help='ID of the execution')
     args = parser.parse_args()
-    
+
     load_and_log(id_execution=args.IdExecution)
