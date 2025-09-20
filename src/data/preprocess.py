@@ -83,10 +83,10 @@ def preprocess(df:pd.DataFrame,config:Dict = {},target: str = 'label') -> pd.Dat
 
 def preprocess_and_log(steps):
 
-    with wandb.init(project="MLOps-Pycon2023",name=f"Preprocess Data ExecId-{args.IdExecution}", job_type="preprocess-data") as run:    
+    with wandb.init(project="MLOps-ExpAnalitica",name=f"Preprocess Data ExecId-{args.IdExecution}", job_type="preprocess-data") as run:    
         processed_data = wandb.Artifact(
             "mnist-preprocess", type="dataset",
-            description="Preprocessed MNIST dataset",
+            description="Preprocessed Titanic dataset",
             metadata=steps)
          
         # ✔️ declare which artifact we'll be using
