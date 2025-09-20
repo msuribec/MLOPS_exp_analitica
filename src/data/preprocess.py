@@ -95,7 +95,7 @@ def preprocess_and_log(steps):
         # 📥 if need be, download the artifact
         raw_dataset = raw_data_artifact.download(root="./data/artifacts/")
         
-        for split in ["training", "validation", "test"]:
+        for split in ["train", "validation", "test"]:
             raw_split = read(raw_dataset, split)
             processed_dataset = preprocess(raw_split, **steps)
 
