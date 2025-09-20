@@ -60,21 +60,21 @@ def load_and_log(id_execution: str | None = None):
 
         # Save locally
         out_dir = Path("data/raw")
+
         out_dir.mkdir(parents=True, exist_ok=True)
-        train_path = out_dir / "train.csv"
-        val_path = out_dir / "val.csv"
+        
+        train_path = out_dir / "training.csv"
+        val_path = out_dir / "validation.csv"
         test_path = out_dir / "test.csv"
 
         train_df.to_csv(train_path, index=False)
         val_df.to_csv(val_path, index=False)
         test_df.to_csv(test_path, index=False)
 
-        names = ["training", "validation", "test"]
-
         # 🏺 create our Artifact
         raw_artifact = wandb.Artifact(
             "titanic-raw", type="dataset",
-            description="raw TITANIC dataset, split into train/val/test",
+            description="raw TITANIC dataset, split into training/validation/test",
             metadata={"source": "seaborn.load_dataset('titanic')",
                       "sizes": [len(dataset) for dataset in datasets]})
 
