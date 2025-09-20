@@ -26,6 +26,7 @@ def build_preprocess_pipeline(pipeline_config: Dict):
     bin_map = pipeline_config.get("bin_map", {})
     numeric_cols = pipeline_config.get("numeric_cols", [])
     onehot_cols = pipeline_config.get("onehot_cols", [])
+    check_cols = pipeline_config.get("check_cols", [])
 
     process_cols = binary_cols + numeric_cols  + onehot_cols
 
@@ -66,7 +67,7 @@ def build_preprocess_pipeline(pipeline_config: Dict):
         ("cast_float", CastToFloat(columns=numeric_cols)), # Convierte columnas numéricas a float
         ('by_type', coltx), # Aplica transformaciones por tipo de variable
         ('one_hot',one_hot_coltx),
-        ("features", FunctionTransformer(add_features, validate=False)),
+        ("features", FunctionTransformer(add_features, kw_args={'check_cols': check_cols}, validate=False)),
         ("cast_int", CastToInt(columns=binary_cols)), # Convierte columnas binarias a int,
         ("organize", OrganizeColumns()),
 
