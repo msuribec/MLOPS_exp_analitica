@@ -4,7 +4,7 @@ import argparse
 import wandb
 import pandas as pd
 import pickle
-from src.data.preprocess_utils import (
+from data.preprocess_utils import (
     DropColumns,
     CastToInt,
     CastToFloat,
