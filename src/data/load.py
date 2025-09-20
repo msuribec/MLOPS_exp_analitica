@@ -55,7 +55,9 @@ def load_and_log(id_execution: str | None = None):
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
         
 
-        train_df, val_df, test_df = load(train_size=0.8, seed=42)
+        datasets = load(train_size=0.8, seed=42)
+
+        train_df, val_df, test_df = datasets
 
         # Save locally
         out_dir = Path("data/raw")
