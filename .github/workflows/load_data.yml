@@ -1,0 +1,37 @@
+name: Load Titanic Data to W&B
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'src/data/load.py'
+      - '.github/workflows/load_data.yml'
+
+jobs:
+  load_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: W&B Login
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+        run: |
+          python -c "import wandb; wandb.login(key='${{ secrets.WANDB_API_KEY }}', relogin=True)"
+
+      - name: Run loader
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+        run: |
+          python src/data/load.py --IdExecution ${{ github.run_number }}
