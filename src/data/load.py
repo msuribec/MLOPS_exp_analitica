@@ -6,9 +6,6 @@ import argparse
 import wandb
 import os
 
-
-
-
 def load(train_size: float = 0.8, seed=42):
     """
     Load the Titanic dataset (from seaborn) and split into train/val/test.
@@ -54,8 +51,9 @@ def load_and_log(id_execution: str | None = None):
         project="MLOps-ExpAnalitica",
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
         
-
-        datasets = load(train_size=0.8, seed=42)
+        seed = int(os.environ["SEED"])
+        seed = int(os.environ["TRAIN_SIZE"])
+        datasets = load(train_size=TRAIN_SIZE, seed=seed)
 
         train_df, val_df, test_df = datasets
 
