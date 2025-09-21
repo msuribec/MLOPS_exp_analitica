@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'src/model/train.py'
+      - 'src/model/classifier.py'
+      - 'src/model/evaluate.py'
+      - '.github/workflows/train.yml'
 
 jobs:
   train_model:

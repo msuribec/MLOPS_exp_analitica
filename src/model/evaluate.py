@@ -1,22 +1,21 @@
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 def evaluate_model(model, X, y, prefix="training_"):
-    """
-    Evaluate the model on the given dataset and return key metrics.
-
+    """Evalua el modelo en los datos proporcionados y devuelve las métricas.
     Parameters
     ----------
     model : object
-        The trained model with a predict method.
-    X : pd.DataFrame or np.ndarray
-        Features for evaluation.
-    y : pd.Series or np.ndarray
-        True labels.
-
+        Modelo entrenado que implementa los métodos predict y predict_proba.
+    X : array-like
+        Características de entrada para la evaluación.
+    y : array-like
+        Etiquetas verdaderas para la evaluación.
+    prefix : str, optional
+        Prefijo para las métricas devueltas (default: "training_").
     Returns
     -------
     dict
-        Dictionary containing accuracy, precision, recall, and F1-score.
+        Diccionario con las métricas de evaluación.
     """
     y_pred = model.predict(X)
 
