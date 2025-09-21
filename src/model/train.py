@@ -5,11 +5,12 @@ import pandas as pd
 import pickle
 import wandb
 
-def read(data_dir, split):
+def read_file(data_dir, split):
     filename = split + ".pkl"
     with open(os.path.join(data_dir, filename), "rb") as f:
-        df_x, df_y = pickle.load(f)
-    return df_x, df_y
+        result = pickle.load(f)
+    return result
+
 
 
 
@@ -30,14 +31,18 @@ def train_and_log(config,experiment_id='99'):
         # 📥 if need be, download the artifact
         preprocess_dataset = preprocess_data_artifact.download(root="./data/artifacts/")
 
-        training_dataset, training_labels =  read(preprocess_dataset, "training")
-        validation_dataset, validation_labels = read(preprocess_dataset, "validation")
+        training_data =  read_file(preprocess_dataset, "training")
+        training_dataset, training_labels = training_data
+        validation_data = read_file(preprocess_dataset, "validation")
+        validation_dataset, validation_labels = validation_data
 
-        # model_artifact = run.use_artifact("RandomForest:latest")
-        # model_dir = model_artifact.download()
-        # model_path = os.path.join(model_dir, "model/initialized_model_RandomForest.pkl")
-        # model_config = model_artifact.metadata
-        # config.update(model_config)
+        model_artifact = run.use_artifact("RandomForest:latest")
+        model_dir = model_artifact.download(root="./data/artifacts/model/")
+        model_config = model_artifact.metadata
+        config.update(model_config)
+
+        model = read_file(model_dir, "initialized_model_RandomForest")
+
 
 
 
@@ -56,7 +61,7 @@ def train_and_log(config,experiment_id='99'):
         # model_artifact.add_file("trained_model.pth")
         # wandb.save("trained_model.pth")
 
-        run.log_artifact(model_artifact)
+        # run.log_artifact(model_artifact)
 
     return model
 
