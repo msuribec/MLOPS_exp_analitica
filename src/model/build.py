@@ -56,6 +56,6 @@ if __name__ == "__main__":
         "n_jobs": -1
     }
 
-    model = rfClassifier(**model_config)
+    model = rfClassifier(model_config)
 
     build_model_and_log(model_config, model, "linear","Simple Linear Classifier")
