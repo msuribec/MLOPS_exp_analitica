@@ -25,17 +25,20 @@ def train_and_log(config,experiment_id='99'):
         name=f"Train Model ExecId-{args.IdExecution} ExperimentId-{experiment_id}", 
         job_type="train-model", config=config) as run:
         config = wandb.config
-        data = run.use_artifact(f'{dataset_name}-preprocess:latest')
-        data_dir = data.download()
 
-        training_dataset, training_labels =  read(data_dir, "training")
-        validation_dataset, validation_labels = read(data_dir, "validation")
+        preprocess_data_artifact = run.use_artifact(f'{dataset_name}-preprocess:latest')
 
-        model_artifact = run.use_artifact("RandomForest:latest")
-        model_dir = model_artifact.download()
-        model_path = os.path.join(model_dir, "model/initialized_model_RandomForest.pkl")
-        model_config = model_artifact.metadata
-        config.update(model_config)
+        # 📥 if need be, download the artifact
+        preprocess_dataset = preprocess_data_artifact.download(root="./data/artifacts/")
+
+        training_dataset, training_labels =  read(preprocess_dataset, "training")
+        validation_dataset, validation_labels = read(preprocess_dataset, "validation")
+
+        # model_artifact = run.use_artifact("RandomForest:latest")
+        # model_dir = model_artifact.download()
+        # model_path = os.path.join(model_dir, "model/initialized_model_RandomForest.pkl")
+        # model_config = model_artifact.metadata
+        # config.update(model_config)
 
 
 
