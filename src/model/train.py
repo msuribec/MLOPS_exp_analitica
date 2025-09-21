@@ -79,7 +79,6 @@ def evaluate_and_log(config={},experiment_id='99',model_name="RandomForest", mod
         name=f"Eval Model ExecId-{args.IdExecution} ExperimentId-{experiment_id}", 
         job_type="eval-model", config=config) as run:
         config = wandb.config
-
         preprocess_data_artifact = run.use_artifact(f'{dataset_name}-preprocess:latest')
 
         # 📥 if need be, download the artifact
@@ -104,6 +103,7 @@ def evaluate_and_log(config={},experiment_id='99',model_name="RandomForest", mod
 
 
 if __name__ == "__main__":
+    # training and evaluation
     parser = argparse.ArgumentParser()
     parser.add_argument('--IdExecution', type=str, help='ID of the execution')
     args = parser.parse_args()
