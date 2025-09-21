@@ -1,5 +1,4 @@
 from classifier import rfClassifier
-
 import os
 import argparse
 import wandb
@@ -46,6 +45,7 @@ if __name__ == "__main__":
         os.makedirs("./model")
 
     seed = int(os.environ["SEED"])
+
     model_config = {
         "criterion" : "gini",
         "n_estimators" : 1750,
