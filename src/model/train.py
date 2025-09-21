@@ -62,13 +62,46 @@ def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_
         run.summary.update(train_metrics)
         run.summary.update(val_metrics)
 
-
-
         wandb.save(name_artifact_model)
 
         run.log_artifact(model_artifact)
 
-    return model
+
+
+def evaluate_and_log(config={},experiment_id='99',model_name="RandomForest", model_description="Simple RandomForest Classifier"):
+
+    seed = int(os.environ["SEED"])
+    project_name = os.environ["PROJECT_NAME"]
+    dataset_name = os.environ["DATASET_NAME"]
+
+    with wandb.init(
+        project=project_name, 
+        name=f"Eval Model ExecId-{args.IdExecution} ExperimentId-{experiment_id}", 
+        job_type="eval-model", config=config) as run:
+        config = wandb.config
+
+        preprocess_data_artifact = run.use_artifact(f'{dataset_name}-preprocess:latest')
+
+        # 📥 if need be, download the artifact
+        preprocess_dataset = preprocess_data_artifact.download(root="./data/artifacts/")
+
+        test_data =  read_file(preprocess_dataset, "test")
+        test_dataset, test_labels = test_data
+
+        model_artifact = run.use_artifact("trained-model:latest")
+        model_dir = model_artifact.download()
+        model_config = model_artifact.metadata
+        config.update(model_config)
+
+        model = read_file(model_dir, "model/trained_model_RandomForest.pkl")
+
+        test_metrics = evaluate_model(model, test_dataset, test_labels, prefix="test_")
+
+        run.summary.update(test_metrics)
+
+
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -80,4 +113,6 @@ if __name__ == "__main__":
     else:
         args.IdExecution = "testing console"
 
-    model = train_and_log(experiment_id=id,model_name="RandomForest", model_description="Simple RandomForest Classifier")       
+    train_and_log(experiment_id=id,model_name="RandomForest", model_description="Simple RandomForest Classifier")    
+
+    evaluate_and_log(experiment_id=id,model_name="RandomForest", model_description="Simple RandomForest Classifier")   
