@@ -1,11 +1,17 @@
-name: Train Model like artifact to wandb
+name: Test Model and report to wandb
 
 on:
+  workflow_run:
+    workflows: ["Train Model and save to wandb"]
+    branches: [ main ]
+    types: [ completed ]
   push:
     branches:
       - main
     paths:
       - 'src/model/train.py'
+
+
 
 jobs:
   train_model:

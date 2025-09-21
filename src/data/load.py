@@ -42,6 +42,12 @@ def load(train_size: float = 0.8, seed=42):
     return datasets
 
 def load_and_log(id_execution: str | None = None):
+    """Load the raw data and log to W&B as an artifact.
+    Parameters
+    ----------
+    id_execution : str, optional
+        ID of the execution (default: None).
+    """
     # 🚀 start a run, with a type to label it and a project it can call home
 
     if id_execution:

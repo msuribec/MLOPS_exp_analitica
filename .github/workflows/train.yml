@@ -1,4 +1,4 @@
-name: Train Model like artifact to wandb
+name: Train Model and save to wandb
 
 on:
   push:

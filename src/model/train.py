@@ -7,6 +7,19 @@ import wandb
 from evaluate import evaluate_model
 
 def read_file(data_dir, split):
+    """Lee un archivo pickle desde el directorio especificado y lo carga.
+    Parameters
+    ----------
+    data_dir : str
+        Directorio donde se encuentra el archivo.
+    split : str
+        Nombre del archivo (sin extensión) a leer.
+    Returns
+    -------
+    object
+        Objeto cargado desde el archivo pickle.
+    """
+
     filename = split + ".pkl"
     with open(os.path.join(data_dir, filename), "rb") as f:
         result = pickle.load(f)
@@ -16,7 +29,18 @@ def read_file(data_dir, split):
 
 
 def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_description="Simple RandomForest Classifier"):
-
+    """Entrena un modelo y registra el modelo entrenado y las métricas en W&B.
+    Parameters
+    ----------
+    config : dict
+        Configuración del modelo.
+    experiment_id : str, optional
+        ID del experimento (default: '99').
+    model_name : str, optional
+        Nombre del modelo (default: "RandomForest").
+    model_description : str, optional
+        Descripción del modelo (default: "Simple RandomForest Classifier").
+    """
     seed = int(os.environ["SEED"])
     project_name = os.environ["PROJECT_NAME"]
     dataset_name = os.environ["DATASET_NAME"]

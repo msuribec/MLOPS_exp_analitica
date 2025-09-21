@@ -1,4 +1,4 @@
-name: Load Titanic Data to W&B
+name: Load Titanic Dataset to W&B
 
 on:
   push:

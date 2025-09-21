@@ -5,6 +5,18 @@ import wandb
 import pickle
 
 def build_model_and_log(config, model, model_name="RandomForest", model_description="Simple RandomForest Classifier"):
+    """Construye y registra un modelo inicializado como un artefacto en W&B.
+    Parameters
+    ----------
+    config : dict
+        Configuración del modelo.
+    model : object
+        Modelo inicializado.
+    model_name : str, optional
+        Nombre del modelo (default: "RandomForest").
+    model_description : str, optional
+        Descripción del modelo (default: "Simple RandomForest Classifier").
+    """
 
     project_name = os.environ["PROJECT_NAME"]
     dataset_name = os.environ["DATASET_NAME"]

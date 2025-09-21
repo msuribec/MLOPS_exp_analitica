@@ -1,8 +1,8 @@
-name: Preprocess Titanic Data
+name: Preprocess Titanic Dataset and Upload to W&B
 
 on:
   workflow_run:
-    workflows: ["Load Titanic Data to W&B"]
+    workflows: ["Load Titanic Dataset to W&B"]
     branches: [ main ]
     types: [ completed ]
   push:

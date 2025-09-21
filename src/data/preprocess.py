@@ -20,6 +20,16 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, FunctionTransfo
 
 
 def build_preprocess_pipeline(pipeline_config: Dict):
+    """Construye un pipeline de preprocesamiento basado en la configuración proporcionada.
+    Parameters
+    ----------
+    pipeline_config : Dict
+        Configuración del pipeline que incluye listas de columnas y mapeos.
+    Returns
+    -------
+    Pipeline
+        Un objeto Pipeline de sklearn que realiza las transformaciones definidas.
+    """
 
     drop_cols = pipeline_config.get("drop_cols", [])
     binary_cols = pipeline_config.get("binary_cols", [])
@@ -77,12 +87,32 @@ def build_preprocess_pipeline(pipeline_config: Dict):
 
 
 def preprocess(df:pd.DataFrame,config:Dict = {},target: str = 'label') -> pd.DataFrame:
+    """Preprocesa el DataFrame de entrada según la configuración proporcionada.
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame de entrada a preprocesar.
+    config : Dict, optional
+        Configuración del preprocesamiento (default: {}).
+    target : str, optional
+        Nombre de la columna objetivo (default: 'label').
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame preprocesado.
+    """
     preprocessor = build_preprocess_pipeline(config)
     labels = df[target].values
     df = preprocessor.fit_transform(df)
     return df, labels
 
 def preprocess_and_log(steps):
+    """Preprocesa los datos y los registra como un artefacto en W&B.
+    Parameters
+    ----------
+    steps : Dict
+        Diccionario que contiene la configuración del preprocesamiento y el nombre de la columna objetivo.
+    """
 
     seed = int(os.environ["SEED"])
     project_name = os.environ["PROJECT_NAME"]
@@ -112,6 +142,18 @@ def preprocess_and_log(steps):
         run.log_artifact(processed_data)
 
 def read(data_dir, split):
+    """Lee un archivo CSV desde el directorio especificado y lo carga en un DataFrame de pandas.
+    Parameters
+    ----------
+    data_dir : str
+        Directorio donde se encuentra el archivo.
+    split : str
+        Nombre del archivo (sin extensión) a leer.
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame cargado desde el archivo CSV.
+    """
     filename = split + ".csv"
     df = pd.read_csv(os.path.join(data_dir, filename))
     return df
@@ -128,7 +170,6 @@ if __name__ == "__main__":
 
 
     TARGET = "survived"
-
 
     pre_processor_confg = {
         "drop_cols": ["class", TARGET, "alive",'embark_town'],

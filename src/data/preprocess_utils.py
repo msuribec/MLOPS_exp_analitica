@@ -2,8 +2,6 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin # for creating custom transformers
 
-
-
 class BinaryMapTransformer(BaseEstimator, TransformerMixin):
     """Transformer que aplica mapeos personalizados para convertir variables categóricas binarias en valores numéricos."""
     def __init__(self, mapping:dict):
@@ -106,7 +104,20 @@ class OrganizeColumns(BaseEstimator, TransformerMixin):
         return np.array(self.feature_names_out_, dtype=object)
 
 def add_features(df,check_cols):
-  
+  """Función para agregar nuevas características al DataFrame.
+    Actualmente, esta función verifica la presencia de ciertas columnas y las agrega si no existen, inicial
+    lizándolas con un valor predeterminado de 0.0.
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame al que se agregarán las nuevas características.
+    check_cols : list
+        Lista de nombres de columnas que se verificarán y agregarán si no existen en el DataFrame.
+    Returns
+    -------
+    pd.DataFrame 
+        DataFrame con las nuevas características agregadas.
+    """
   for col in check_cols:
     if col not in df.columns:
       df[col] = 0.0
