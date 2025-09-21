@@ -2,12 +2,15 @@ from classifier import rfClassifier
 import os
 import argparse
 import pandas as pd
+import pickle
 import wandb
 
 def read(data_dir, split):
-    filename = split + ".csv"
-    df = pd.read_csv(os.path.join(data_dir, filename))
-    return df
+    filename = split + ".pkl"
+
+    with open(filename) as f:
+        df_x, df_y = pickle.load(f)
+    return df_x, df_y
 
 
 
@@ -25,8 +28,8 @@ def train_and_log(config,experiment_id='99'):
         data = run.use_artifact(f'{dataset_name}-preprocess:latest')
         data_dir = data.download()
 
-        training_dataset =  read(data_dir, "training")
-        validation_dataset = read(data_dir, "validation")
+        training_dataset, training_labels =  read(data_dir, "training")
+        validation_dataset, validation_labels = read(data_dir, "validation")
 
         model_artifact = run.use_artifact("RandomForest:latest")
         model_dir = model_artifact.download()
