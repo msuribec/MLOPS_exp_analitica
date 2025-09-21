@@ -58,4 +58,4 @@ if __name__ == "__main__":
 
     model = rfClassifier(model_config)
 
-    build_model_and_log(model_config, model, "linear","Simple Linear Classifier")
+    build_model_and_log(model_config, model, "RandomForest", "Simple RandomForest Classifier")
