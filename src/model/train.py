@@ -1,6 +1,7 @@
 from classifier import rfClassifier
 import os
 import argparse
+import pandas as pd
 import wandb
 
 def read(data_dir, split):
