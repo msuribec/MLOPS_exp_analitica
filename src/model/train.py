@@ -92,7 +92,7 @@ def evaluate_and_log(config={},experiment_id='99',model_name="RandomForest", mod
         model_config = model_artifact.metadata
         config.update(model_config)
 
-        model = read_file(model_dir, "model/trained_model_RandomForest.pkl")
+        model = read_file(model_dir, "model/trained_model_RandomForest")
 
         test_metrics = evaluate_model(model, test_dataset, test_labels, prefix="test_")
 
