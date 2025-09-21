@@ -37,7 +37,7 @@ def train_and_log(config,experiment_id='99'):
         validation_dataset, validation_labels = validation_data
 
         model_artifact = run.use_artifact("RandomForest:latest")
-        model_dir = model_artifact.download(root="./data/artifacts/model/")
+        model_dir = model_artifact.download(root="./model/")
         model_config = model_artifact.metadata
         config.update(model_config)
 
