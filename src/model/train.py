@@ -14,7 +14,7 @@ def read_file(data_dir, split):
 
 
 
-def train_and_log(config,experiment_id='99'):
+def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_description="Simple RandomForest Classifier"):
 
     seed = int(os.environ["SEED"])
     project_name = os.environ["PROJECT_NAME"]
@@ -43,25 +43,21 @@ def train_and_log(config,experiment_id='99'):
 
         model = read_file(model_dir, "model/initialized_model_RandomForest")
 
+        model.fit(training_dataset, training_labels)
 
+        trained_model_artifact = wandb.Artifact(
+            "trained-model", type="model",
+            description="Trained RandomForest model",
+            metadata=dict(model_config))
 
+        name_artifact_model = f"trained_model_{model_name}.pkl"
 
-        # model = rfClassifier(model_config)
-        # model.load_state_dict(torch.load(model_path))
-        # model = model.to(device)
- 
-        # train(model, train_loader, validation_loader, config)
+        with model_artifact.new_file(f"./model/{name_artifact_model}", mode="wb") as file:
+            pickle.dump(model, file)
 
-        # model_artifact = wandb.Artifact(
-        #     "trained-model", type="model",
-        #     description="Trained NN model",
-        #     metadata=dict(model_config))
+        wandb.save(name_artifact_model)
 
-        # torch.save(model.state_dict(), "trained_model.pth")
-        # model_artifact.add_file("trained_model.pth")
-        # wandb.save("trained_model.pth")
-
-        # run.log_artifact(model_artifact)
+        run.log_artifact(trained_model_artifact)
 
     return model
 
@@ -75,4 +71,4 @@ if __name__ == "__main__":
     else:
         args.IdExecution = "testing console"
 
-    model = train_and_log({}, id)       
+    model = train_and_log(experiment_id=id,model_name="RandomForest", model_description="Simple RandomForest Classifier")       
