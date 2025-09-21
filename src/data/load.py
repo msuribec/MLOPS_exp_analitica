@@ -46,12 +46,16 @@ def load_and_log(id_execution: str | None = None):
 
     if id_execution:
             print(f"IdExecution: {id_execution}")
+    
+    seed = int(os.environ["SEED"])
+    project_name = os.environ["PROJECT_NAME"]
+    dataset_name = os.environ["DATASET_NAME"]
 
     with wandb.init(
-        project="MLOps-ExpAnalitica",
+        project=project_name,
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
         
-        seed = int(os.environ["SEED"])
+        
         train_size = float(os.environ["TRAIN_SIZE"])
 
         datasets = load(train_size=train_size, seed=seed)
@@ -60,9 +64,8 @@ def load_and_log(id_execution: str | None = None):
 
         # Save locally
         out_dir = Path("data/raw")
-
         out_dir.mkdir(parents=True, exist_ok=True)
-        
+
         train_path = out_dir / "training.csv"
         val_path = out_dir / "validation.csv"
         test_path = out_dir / "test.csv"
@@ -73,8 +76,8 @@ def load_and_log(id_execution: str | None = None):
 
         # 🏺 create our Artifact
         raw_artifact = wandb.Artifact(
-            "titanic-raw", type="dataset",
-            description="raw TITANIC dataset, split into training/validation/test",
+            f"{dataset_name}-raw", type="dataset",
+            description=f"raw {dataset_name} dataset, split into training/validation/test",
             metadata={"source": "seaborn.load_dataset('titanic')",
                       "sizes": [len(dataset) for dataset in datasets]})
 
@@ -84,7 +87,6 @@ def load_and_log(id_execution: str | None = None):
         run.log_artifact(raw_artifact)
 
         run.finish()
-
 
 
 if __name__ == "__main__":

@@ -84,14 +84,18 @@ def preprocess(df:pd.DataFrame,config:Dict = {},target: str = 'label') -> pd.Dat
 
 def preprocess_and_log(steps):
 
-    with wandb.init(project="MLOps-ExpAnalitica",name=f"Preprocess Data ExecId-{args.IdExecution}", job_type="preprocess-data") as run:    
+    seed = int(os.environ["SEED"])
+    project_name = os.environ["PROJECT_NAME"]
+    dataset_name = os.environ["DATASET_NAME"]
+
+    with wandb.init(project=project_name,name=f"Preprocess Data ExecId-{args.IdExecution}", job_type="preprocess-data") as run:    
         processed_data = wandb.Artifact(
-            "mnist-preprocess", type="dataset",
-            description="Preprocessed Titanic dataset",
+            f"{dataset_name}-preprocess", type="dataset",
+            description=f"Preprocessed {dataset_name} dataset",
             metadata=steps)
          
         # ✔️ declare which artifact we'll be using
-        raw_data_artifact = run.use_artifact('titanic-raw:latest')
+        raw_data_artifact = run.use_artifact(f'{dataset_name}-raw:latest')
 
         # 📥 if need be, download the artifact
         raw_dataset = raw_data_artifact.download(root="./data/artifacts/")
