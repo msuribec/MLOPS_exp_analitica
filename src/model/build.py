@@ -2,7 +2,7 @@ from classifier import rfClassifier
 import os
 import argparse
 import wandb
-
+import pickle
 
 def build_model_and_log(config, model, model_name="RandomForest", model_description="Simple RandomForest Classifier"):
 
