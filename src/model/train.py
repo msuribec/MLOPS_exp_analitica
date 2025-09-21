@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 import pickle
 import wandb
+from evaluate import evaluate_model
 
 def read_file(data_dir, split):
     filename = split + ".pkl"
@@ -54,6 +55,14 @@ def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_
 
         with model_artifact.new_file(f"./model/{name_artifact_model}", mode="wb") as file:
             pickle.dump(model, file)
+
+        train_metrics = evaluate_model(model, training_dataset, training_labels, prefix="training_")
+        val_metrics = evaluate_model(model, validation_dataset, validation_labels, prefix="validation_")
+
+        run.summary.update(train_metrics)
+        run.summary.update(val_metrics)
+
+
 
         wandb.save(name_artifact_model)
 
