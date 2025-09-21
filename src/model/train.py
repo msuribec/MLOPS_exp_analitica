@@ -7,7 +7,7 @@ import wandb
 
 def read(data_dir, split):
     filename = split + ".pkl"
-    with open(os.path.join(data_dir, filename)) as f:
+    with open(os.path.join(data_dir, filename), "rb") as f:
         df_x, df_y = pickle.load(f)
     return df_x, df_y
 
