@@ -22,7 +22,7 @@ def build_model_and_log(config, model, model_name="RandomForest", model_descript
         name_artifact_model = f"initialized_model_{model_name}.pkl"
 
         with model_artifact.new_file(f"./model/{name_artifact_model}", mode="wb") as file:
-            pickle.dump((df_x, labels), file)
+            pickle.dump(model, file)
 
         wandb.save(name_artifact_model)
 
