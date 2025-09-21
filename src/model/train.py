@@ -41,7 +41,7 @@ def train_and_log(config,experiment_id='99'):
         model_config = model_artifact.metadata
         config.update(model_config)
 
-        model = read_file(model_dir, "initialized_model_RandomForest")
+        model = read_file(model_dir, "model/initialized_model_RandomForest")
 
 
 
