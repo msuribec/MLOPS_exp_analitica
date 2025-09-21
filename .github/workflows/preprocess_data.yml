@@ -2,13 +2,14 @@ name: Preprocess Titanic Dataset and Upload to W&B
 
 on:
   workflow_run:
-    workflows: ["Load Titanic Dataset to W&B"]
+    workflows: ["oad Titanic Dataset to Wandb"]
     branches: [ main ]
     types: [ completed ]
   push:
     branches: [ main ]
     paths:
       - 'src/data/preprocess.py'
+      - 'src/data/preprocess_utils.py'
       - '.github/workflows/preprocess_data.yml'
 
 jobs:
