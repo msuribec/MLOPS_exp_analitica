@@ -60,15 +60,12 @@ def load_and_log(id_execution: str | None = None):
     with wandb.init(
         project=project_name,
         name=f"Load Raw Data ExecId-{args.IdExecution}", job_type="load-data") as run:
-        
-        
+        # 📥 load the dataset
         train_size = float(os.environ["TRAIN_SIZE"])
-
         datasets = load(train_size=train_size, seed=seed)
-
         train_df, val_df, test_df = datasets
 
-        # Save locally
+        # 💾 save the splits to disk
         out_dir = Path("data/raw")
         out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -87,6 +84,7 @@ def load_and_log(id_execution: str | None = None):
             metadata={"source": "seaborn.load_dataset('titanic')",
                       "sizes": [len(dataset) for dataset in datasets]})
 
+        # 📤 add the file to the artifact
         raw_artifact.add_file(str(train_path))
         raw_artifact.add_file(str(val_path))
         raw_artifact.add_file(str(test_path))
@@ -99,5 +97,5 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--IdExecution', type=str, help='ID of the execution')
     args = parser.parse_args()
-
+    
     load_and_log(id_execution=args.IdExecution)
