@@ -64,4 +64,4 @@ if __name__ == "__main__":
     else:
         args.IdExecution = "testing console"
 
-    model = train_and_log(train_config, id)       
+    model = train_and_log({}, id)       
