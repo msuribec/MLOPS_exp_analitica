@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - 'src/model/build.py'
+      - 'src/model/classifier.py'
+      - '.github/workflows/build_model.yml'
 
 jobs:
   build_model:
