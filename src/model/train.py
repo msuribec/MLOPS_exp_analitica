@@ -45,7 +45,7 @@ def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_
 
         model.fit(training_dataset, training_labels)
 
-        trained_model_artifact = wandb.Artifact(
+        model_artifact = wandb.Artifact(
             "trained-model", type="model",
             description="Trained RandomForest model",
             metadata=dict(model_config))
@@ -57,7 +57,7 @@ def train_and_log(config={},experiment_id='99',model_name="RandomForest", model_
 
         wandb.save(name_artifact_model)
 
-        run.log_artifact(trained_model_artifact)
+        run.log_artifact(model_artifact)
 
     return model
 
