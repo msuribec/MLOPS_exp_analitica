@@ -54,7 +54,7 @@ def train_and_log(config,experiment_id='99'):
 
     return model
 
-if name__ == "__main__":
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--IdExecution', type=str, help='ID of the execution')
     args = parser.parse_args()
